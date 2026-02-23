@@ -1,8 +1,8 @@
 {
-  "name": "TiaTeleMD_RN",
-  "displayName": "TiaTele MD",
+  "name": "TiaTele",
+  "displayName": "TiaTele",
   "expo": {
-    "name": "TiaTele MD",
+    "name": "TiaTele",
     "slug": "tiatelemd-app",
     "version": "1.0.0",
     "orientation": "portrait",
