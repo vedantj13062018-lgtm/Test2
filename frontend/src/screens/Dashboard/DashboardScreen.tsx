@@ -16,16 +16,21 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { setItems, setLoading } from '../../store/slices/dashboardSlice';
-import { DashboardItem } from '../../types';
+import { DashboardItem, RootStackParamList } from '../../types';
 import apiService from '../../services/apiService';
 import { API_GET_DASHBOARD_DATA, COLORS } from '../../constants';
 import { getStringFromStorage } from '../../utils/storage';
 import { format } from 'date-fns';
 import CustomDrawer from '../../components/CustomDrawer';
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 const DashboardScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   const dispatch = useAppDispatch();
   const { items, isLoading } = useAppSelector((state) => state.dashboard);
   const [refreshing, setRefreshing] = useState(false);
@@ -38,6 +43,14 @@ const DashboardScreen: React.FC = () => {
 
   const closeDrawer = () => {
     setDrawerOpen(false);
+  };
+
+  const handlePatientPress = (item: DashboardItem) => {
+    // Navigate to patient details with patient context
+    navigation.navigate('PatientDetails', {
+      patientId: item.id || item.patientId || '',
+      encounterId: item.encounterId || item.encounter_id || '',
+    });
   };
 
   useEffect(() => {
