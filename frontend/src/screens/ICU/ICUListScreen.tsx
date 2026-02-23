@@ -116,6 +116,10 @@ const ICUListScreen: React.FC = () => {
 
       const response = await apiService.postEncrypted('ApiTiaTeleMD/fetchIcuList', params);
 
+      // Store response for debug panel
+      setDebugResponse(response);
+      setDebugError('');
+
       console.log('API Response code:', response.code);
       console.log('API Response data:', JSON.stringify(response.data, null, 2));
 
@@ -134,8 +138,9 @@ const ICUListScreen: React.FC = () => {
       } else {
         console.warn('API returned non-success code:', response.code, response.status);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching ICU list:', error);
+      setDebugError(error?.message || 'Unknown error occurred');
       Alert.alert('Error', 'Failed to fetch ICU patients');
     } finally {
       setLoading(false);
