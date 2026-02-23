@@ -115,7 +115,8 @@ const ICUListScreen: React.FC = () => {
 
       if (response.code === '200' || response.code === '100') {
         const data = response.data as any;
-        const patientList = data?.icuListArrayList || data?.icu_list || data?.iculist || [];
+        // Java model uses @SerializedName("icu_list") - check multiple possible keys
+        const patientList = data?.icu_list || data?.icuListArrayList || data?.iculist || data?.patientList || [];
         console.log('ICU patient list count:', patientList.length);
         setTotalCount(data?.total_count || data?.totalcount || '0');
 
