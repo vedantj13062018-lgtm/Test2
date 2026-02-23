@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="react_native_dev_server_port">8081</integer>
+    <integer name="react_native_inspector_proxy_port">8081</integer>
+    <string name="app_name">TiaTele MD</string>
+    <string name="default_web_client_id" translatable="false">914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://rapidresponz-5f037.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">914448815958</string>
+    <string name="google_api_key" translatable="false">AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8</string>
+    <string name="google_app_id" translatable="false">1:914448815958:android:bab7307cb58e2e57fb68f7</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8</string>
+    <string name="google_storage_bucket" translatable="false">rapidresponz-5f037.firebasestorage.app</string>
+    <string name="project_id" translatable="false">rapidresponz-5f037</string>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        
+        <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+    </style>
+</resources>
