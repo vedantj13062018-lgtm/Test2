@@ -322,10 +322,14 @@ const DashboardScreen: React.FC = () => {
   };
 
   const renderItem = ({ item }: { item: DashboardItem }) => (
-    <View style={styles.item}>
+    <TouchableOpacity 
+      style={styles.item}
+      onPress={() => handlePatientPress(item)}
+      activeOpacity={0.7}
+    >
       <Text style={styles.itemTitle}>{item.title}</Text>
       {item.date && <Text style={styles.itemDate}>{item.date}</Text>}
-    </View>
+    </TouchableOpacity>
   );
 
   if (isLoading && items.length === 0) {
