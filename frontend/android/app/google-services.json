@@ -1,0 +1,263 @@
+{
+  "project_info": {
+    "project_number": "914448815958",
+    "firebase_url": "https://rapidresponz-5f037.firebaseio.com",
+    "project_id": "rapidresponz-5f037",
+    "storage_bucket": "rapidresponz-5f037.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914448815958:android:bab7307cb58e2e57fb68f7",
+        "android_client_info": {
+          "package_name": "com.tiatech.tiatelemd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914448815958-1eq49v4jolo83v6cub20s38j2j0rragl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiatech.tiatelemd"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914448815958:android:6cd5ece1c4361cf4fb68f7",
+        "android_client_info": {
+          "package_name": "com.tiatech.iwebmd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914448815958-1eq49v4jolo83v6cub20s38j2j0rragl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiatech.tiatelemd"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914448815958:android:40dea7de2e7dd0ba",
+        "android_client_info": {
+          "package_name": "com.tiatech.rapidresponz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914448815958-1eq49v4jolo83v6cub20s38j2j0rragl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiatech.tiatelemd"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914448815958:android:78f6fb3da4f89b5cfb68f7",
+        "android_client_info": {
+          "package_name": "com.tiatech.saiswasthyamd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914448815958-1eq49v4jolo83v6cub20s38j2j0rragl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiatech.tiatelemd"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914448815958:android:df126d2018cc7cd7fb68f7",
+        "android_client_info": {
+          "package_name": "com.tiatech.tiateleassist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914448815958-1eq49v4jolo83v6cub20s38j2j0rragl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiatech.tiatelemd"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914448815958:android:d7d37034b94242aafb68f7",
+        "android_client_info": {
+          "package_name": "com.tiatech.tiatelemd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914448815958-1eq49v4jolo83v6cub20s38j2j0rragl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiatech.tiatelemd"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914448815958:android:6c7e7eb687f703ebfb68f7",
+        "android_client_info": {
+          "package_name": "com.tiatech.tiatelemddoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj5-Xatshet2mbXgpsxOXc_yIO5PF9Wk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914448815958-mcocvu7vf83lc4aqrl6dncam2loh1kf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914448815958-1eq49v4jolo83v6cub20s38j2j0rragl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tiatech.tiatelemd"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

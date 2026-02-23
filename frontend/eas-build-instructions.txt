@@ -1,0 +1,65 @@
+═══════════════════════════════════════════════════════════════
+ BUILD APK WITHOUT DOWNLOADING - Using Expo EAS Cloud Build
+═══════════════════════════════════════════════════════════════
+
+This is the EASIEST way to get your APK without downloading anything!
+
+STEP 1: Get the code to your GitHub
+----------------------------------------
+Option A: If you have "Save to GitHub" button in your workspace:
+   1. Click "Save to GitHub"
+   2. Connect your GitHub account
+   3. Code will be pushed automatically
+
+Option B: Manual Git Push:
+   1. Create a new repository on GitHub (e.g., TiaTeleMD)
+   2. In your terminal, run these commands:
+
+   cd /app/TiaTeleMD_RN
+   git init
+   git add .
+   git commit -m "Initial commit - TiaTele MD React Native"
+   git remote add origin https://github.com/YOUR_USERNAME/TiaTeleMD.git
+   git push -u origin master
+
+STEP 2: Build APK using EAS (on your local computer)
+------------------------------------------------------
+After code is on GitHub, on your local computer:
+
+# 1. Clone the repository
+git clone https://github.com/YOUR_USERNAME/TiaTeleMD.git
+cd TiaTeleMD
+
+# 2. Install EAS CLI
+npm install -g eas-cli
+
+# 3. Login to Expo
+eas login
+# (or create free account: eas register)
+
+# 4. Build APK in the cloud
+eas build --platform android --profile preview
+
+# 5. Wait 10-15 minutes, then download APK from link provided!
+
+═══════════════════════════════════════════════════════════════
+
+ALTERNATIVE: Build on Your Computer
+═══════════════════════════════════════════════════════════════
+
+If you can access the code via GitHub:
+
+# 1. Clone repository
+git clone https://github.com/YOUR_USERNAME/TiaTeleMD.git
+cd TiaTeleMD
+
+# 2. Install dependencies
+npm install
+
+# 3. Build APK
+cd android
+./gradlew assembleDebug
+
+# APK: android/app/build/outputs/apk/debug/app-debug.apk
+
+═══════════════════════════════════════════════════════════════

@@ -1,0 +1,459 @@
+/**
+ * Socket.IO Service
+ * Matches Swift TiaChatManager implementation
+ */
+
+import { io, Socket } from 'socket.io-client';
+import { getStringFromStorage } from '../utils/storage';
+import { BASE_SOCKET_URL, USER_ID, USER_TYPE, SESSION_ID } from '../constants';
+
+class SocketService {
+  private socket: Socket | null = null;
+  private isConnected: boolean = false;
+  private isJoining: boolean = false;
+  private baseSocketUrl: string = '';
+  private socketCallback: ((data: any) => void) | null = null;
+
+  /**
+   * Initialize socket connection
+   */
+  initSocket(): Promise<void> {
+    return new Promise((resolve) => {
+      // If already connected, resolve immediately
+      if (this.socket && this.isConnected) {
+        resolve();
+        return;
+      }
+
+      getStringFromStorage(BASE_SOCKET_URL).then((baseUrl) => {
+        if (!baseUrl) {
+          console.error('Base socket URL not found');
+          // If no URL, we can't connect, so we just resolve to avoid hanging
+          resolve();
+          return;
+        }
+
+        this.baseSocketUrl = baseUrl;
+
+        // Disconnect existing socket if any
+        if (this.socket) {
+          this.socket.disconnect();
+        }
+
+        // Create new socket connection
+        this.socket = io(baseUrl, {
+          transports: ['websocket', 'polling'],
+          reconnection: true,
+          reconnectionDelay: 1000,
+          reconnectionAttempts: 5,
+          forceNew: true,
+        });
+
+        this.setupEventHandlers();
+
+        // Wait for connection
+        this.socket.once('connect', () => {
+          console.log('Socket initialized and connected');
+          resolve();
+        });
+
+        // Also resolve on error to prevent hanging
+        this.socket.once('connect_error', (error) => {
+          console.error('Socket initial connection error:', error);
+          resolve();
+        });
+
+        // Explicitly calling connect
+        this.connect();
+
+        // Fallback safety timeout in case events don't fire
+        setTimeout(() => {
+          if (this.socket && !this.isConnected) {
+            console.warn('Socket init timeout - proceeding anyway');
+            resolve();
+          }
+        }, 5000);
+      });
+    });
+  }
+
+  /**
+   * Setup socket event handlers
+   */
+  private setupEventHandlers(): void {
+    if (!this.socket) return;
+
+    // DEBUG: Log all events
+    this.socket.onAny((event, ...args) => {
+      console.log(`[SocketService] Received event: ${event}`, args);
+    });
+
+    this.socket.on('connect', () => {
+      console.log('Socket connected');
+      this.isConnected = true;
+      this.joinGroup();
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('Socket disconnected');
+      this.isConnected = false;
+    });
+
+    this.socket.on('connect_error', (error) => {
+      console.error('Socket connection error:', error);
+      this.isConnected = false;
+    });
+
+    // Add more event handlers as needed
+    this.socket.on('message', (data) => {
+      console.log('Received message:', data);
+      // Handle message event
+    });
+
+    // Listen for ALL events for debugging
+    this.socket.onAny((eventName, ...args) => {
+      console.log(`[SocketService] 🔔 RAW EVENT RECEIVED: ${eventName}`, args);
+    });
+
+    this.socket.on('call', (data) => {
+      console.log('Received call event:', data);
+    });
+
+    this.socket.on('onlineUsers', async (data) => {
+      console.log('Received onlineUsers event:', data);
+      try {
+        const raw = Array.isArray(data) ? data[0] : data;
+        // The data seems to be a JSON string inside the array: ["{\"users\":...}"]
+        const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        const users = parsed.users || {};
+
+        const myUserId = await getStringFromStorage(USER_ID);
+        console.log(`[SocketService] Checking online status for UserID: ${myUserId}`);
+
+        if (myUserId && users[myUserId]) {
+          console.log(`[SocketService] ✅ I AM ONLINE! (Socket ID: ${users[myUserId]})`);
+        } else {
+          console.warn(`[SocketService] ❌ I AM NOT IN ONLINE LIST! (My ID: ${myUserId})`);
+        }
+      } catch (e) {
+        console.error('Error parsing onlineUsers:', e);
+      }
+    });
+
+    this.socket.on('onlineUsersApp', async (data) => {
+      console.log('Received onlineUsersApp event:', data);
+      try {
+        const raw = Array.isArray(data) ? data[0] : data;
+        const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        const users = parsed.users || {};
+
+        const myUserId = await getStringFromStorage(USER_ID);
+
+        if (myUserId && users[myUserId]) {
+          console.log(`[SocketService] ✅ I AM ONLINE (App)! (Socket ID: ${users[myUserId]})`);
+        } else {
+          console.warn(`[SocketService] ❌ I AM NOT IN ONLINE APP LIST! (My ID: ${myUserId})`);
+        }
+      } catch (e) {
+        console.error('Error parsing onlineUsersApp:', e);
+      }
+    });
+
+
+    // MARK: - Call Events (Matches Swift)
+
+    // 1. Normal Group Call (The primary way calls are received)
+    this.socket.on('onNormalCallToGroupCall', (data: any) => {
+      console.log('Received onNormalCallToGroupCall (RAW):', JSON.stringify(data, null, 2));
+      const payload = Array.isArray(data) ? data[0] : data;
+      console.log('Processed Payload:', payload);
+
+      if (payload && payload.broadcast_id) {
+        console.log('Incoming Call Broadcast ID found:', payload.broadcast_id);
+        if (this.incomingCallCallback) {
+          console.log('Executing incomingCallCallback with roomId:', payload.broadcast_id);
+          this.incomingCallCallback(payload.broadcast_id);
+        } else {
+          console.warn('WARNING: incomingCallCallback is NULL! Listener not registered inside MainTabsNavigator?');
+        }
+      } else {
+        console.error('onNormalCallToGroupCall payload missing broadcast_id!', payload);
+      }
+    });
+
+    // 2. Chat Request from Mobile (Often used for 1-1 calls or chat requests)
+    this.socket.on('onChatRequestFromMobile', (data: any) => {
+      console.log('Received onChatRequestFromMobile:', JSON.stringify(data, null, 2));
+      // In Swift, this triggers fetchChatRequests().
+      // We should check if this contains call data or just a chat notification.
+    });
+
+    // 3. Accepted Chat (If another doctor accepted it)
+    this.socket.on('onAcceptChatRequestFromDoctor', (data: any) => {
+      console.log('Received onAcceptChatRequestFromDoctor:', JSON.stringify(data, null, 2));
+    });
+
+    // 4. Cart Access Request
+    this.socket.on('requestCartAccess', (data: any) => {
+      console.log('Received requestCartAccess:', JSON.stringify(data, null, 2));
+      const payload = Array.isArray(data) ? data[0] : data;
+      // If this contains meaningful call data, handle it.
+      if (payload) {
+        console.log('Potential Incoming Call via requestCartAccess:', payload);
+      }
+    });
+
+    // 5. Call Status Update
+    this.socket.on('onCallStatusUpdate', (data: any) => {
+      console.log('Received onCallStatusUpdate:', data);
+    });
+
+    // 6. Generic "call" event (Just in case)
+    this.socket.on('call', (data) => {
+      console.log('Received generic "call" event:', data);
+    });
+
+    // 7. Catch-all for "request" or "invite" events to debug hidden events
+    this.socket.onAny((eventName, ...args) => {
+      if (eventName.toLowerCase().includes('call') ||
+        eventName.toLowerCase().includes('request') ||
+        eventName.toLowerCase().includes('invite')) {
+        console.log(`[SocketService] 🕵️ INTERESTING EVENT: ${eventName}`, args);
+      }
+    });
+  }
+
+  private incomingCallCallback: ((roomId: string) => void) | null = null;
+
+  /**
+   * Set callback for incoming calls
+   */
+  onIncomingCall(callback: (roomId: string) => void): void {
+    this.incomingCallCallback = callback;
+  }
+
+  /**
+   * Connect to socket
+   */
+  private async connect(): Promise<void> {
+    if (!this.socket || this.isJoining) return;
+
+    if (this.socket.connected) {
+      this.joinGroup();
+    } else {
+      this.socket.connect();
+    }
+  }
+
+  /**
+   * Join user group
+   */
+  private async joinGroup(): Promise<void> {
+    if (!this.socket || this.isJoining) return;
+
+    try {
+      const userId = await getStringFromStorage(USER_ID);
+      const userType = await getStringFromStorage(USER_TYPE);
+      const adminStr = await getStringFromStorage('admin');
+      const sessionId = await getStringFromStorage(SESSION_ID);
+
+      const isAdmin = (adminStr === 'true' || adminStr === '1') ? 1 : 0;
+
+      if (!userId || !sessionId) {
+        console.error('User ID or Session ID not found. Cannot join group.');
+        return;
+      }
+
+      this.isJoining = true;
+
+      // Match Swift implementation: userID, userType, isAdmin (Int), sessionID
+      console.log('Emitting setUser (JOIN_GROUP) with:', { userId, userType: userType || 'Doctor', isAdmin, sessionId });
+
+      this.socket.emit('setUser', userId, userType || 'Doctor', isAdmin, sessionId, (response: any) => {
+        console.log('setUser ack response:', response);
+        this.isJoining = false;
+      });
+
+      this.isJoining = false;
+    } catch (error) {
+      console.error('Join group error:', error);
+      this.isJoining = false;
+    }
+  }
+
+  /**
+   * Emit event with acknowledgement
+   */
+  emitWithAck(event: string, data: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (this.socket && this.isConnected) {
+        this.socket.emit(event, data, (...args: any[]) => {
+          // Return all arguments as an array to match Swift's emitWithAck behavior
+          // This ensures that if the server sends a single string, we get [string], 
+          // allowing doctorService to access response[0] consistency.
+          resolve(args);
+        });
+      } else {
+        // Try to connect if not connected
+        if (this.socket && !this.isConnected) {
+          console.log('Socket not connected, attempting to connect before emit...');
+          this.socket.connect();
+          // Simple one-time retry after short delay
+          setTimeout(() => {
+            if (this.socket && this.isConnected) {
+              this.socket.emit(event, data, (response: any) => {
+                resolve(response);
+              });
+            } else {
+              reject(new Error(`Socket not connected, cannot emit: ${event}`));
+            }
+          }, 1000);
+        } else {
+          console.error(`Socket not initialized, cannot emit: ${event}`);
+          reject(new Error(`Socket not initialized, cannot emit: ${event}`));
+        }
+      }
+    });
+  }
+
+  /**
+   * Emit event
+   */
+  emit(event: string, data: any): void {
+    if (this.socket && this.isConnected) {
+      this.socket.emit(event, data);
+    } else {
+      console.warn('Socket not connected, cannot emit:', event);
+    }
+  }
+
+  /**
+   * Listen to event
+   */
+  on(event: string, callback: (data: any) => void): void {
+    if (this.socket) {
+      this.socket.on(event, callback);
+    }
+  }
+
+  /**
+   * Remove event listener
+   */
+  off(event: string, callback?: (data: any) => void): void {
+    if (this.socket) {
+      if (callback) {
+        this.socket.off(event, callback);
+      } else {
+        this.socket.off(event);
+      }
+    }
+  }
+
+  /**
+   * Disconnect socket
+   */
+  disconnect(): void {
+    if (this.socket) {
+      this.socket.disconnect();
+      this.socket = null;
+      this.isConnected = false;
+    }
+  }
+
+  /**
+   * Get connection status
+   */
+  getConnectionStatus(): boolean {
+    return this.isConnected && this.socket?.connected === true;
+  }
+
+  /**
+   * Generate Group Call (Jitsi)
+   * Matches Swift TiaChatManager.generateGroupCall
+   */
+  async generateGroupCall(
+    userId: string,
+    userName: string,
+    participantsId: string[],
+    organizationId: string
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!this.socket || !this.isConnected) {
+        reject(new Error('Socket not connected'));
+        return;
+      }
+
+      const params = {
+        caller_id: userId,
+        caller_name: userName,
+        participants: participantsId,
+        old_broadcast: '0',
+        organization_id: organizationId,
+      };
+
+      console.log('generateGroupCall params:', params);
+
+      // JSON stringify params (Swift: UtilitySwift.getJsonStringFromDictionary)
+      // Note: Swift implementation of getJsonStringFromDictionary does NOT encrypt the params,
+      // only the response is encrypted.
+      // However, we should double check if the server expects a raw JSON string or object.
+      // Swift uses: socket.emitWithAck("newGroupCall", json_params) where json_params is a string.
+      const jsonParams = JSON.stringify(params);
+
+      this.socket.emit('newGroupCall', jsonParams, (...args: any[]) => {
+        console.log('newGroupCall ack args:', args);
+
+        const response = args.length > 0 ? args[0] : null;
+
+        if (!response) {
+          console.error('Invalid/empty response from newGroupCall');
+          reject(new Error('Invalid response from newGroupCall'));
+          return;
+        }
+
+        try {
+          // Check if response is already an object (unencrypted)
+          if (typeof response === 'object' && response !== null && response.broadcast_id) {
+            console.log('Received unencrypted broadcast_id:', response.broadcast_id);
+            resolve(response.broadcast_id);
+            return;
+          }
+
+          // If response is a string, it might be the encrypted string directly
+          // Swift code expects data[0] as String. If args array has string at 0, uses that.
+          // If response IS the string, use it.
+          let encryptedStr = '';
+          if (typeof response === 'string') {
+            encryptedStr = response;
+          } else if (Array.isArray(response) && response.length > 0) {
+            encryptedStr = response[0];
+          } else {
+            // Fallback: cast to string
+            encryptedStr = String(response);
+          }
+
+          console.log('newGroupCall raw encryptedStr:', encryptedStr);
+
+          // Import decryptJSON dynamically or assume it's available via encryption.ts
+          // We'll use the one from utils
+          const { decryptJSON } = require('../utils/encryption');
+          const decryptedData = decryptJSON(encryptedStr);
+
+          console.log('newGroupCall decrypted:', decryptedData);
+
+          if (decryptedData && decryptedData.broadcast_id) {
+            resolve(decryptedData.broadcast_id);
+          } else {
+            console.error('No broadcast_id in decrypted data');
+            reject(new Error('Failed to generate room ID'));
+          }
+        } catch (error) {
+          console.error('Error processing newGroupCall response:', error);
+          reject(error);
+        }
+      });
+    });
+  }
+}
+
+export default new SocketService();
