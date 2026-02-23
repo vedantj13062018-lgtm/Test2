@@ -42,6 +42,7 @@ yarn-error.*
 android/.gradle/
 android/app/build/
 android/build/
+android/app/.cxx/
 
 # iOS build
 ios/Pods/
