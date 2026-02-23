@@ -251,16 +251,30 @@ const ICUListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {/* Debug Panel */}
+      <DebugPanel
+        visible={debugVisible}
+        onClose={() => setDebugVisible(false)}
+        apiResponse={debugResponse}
+        apiError={debugError}
+        endpoint="ApiTiaTeleMD/fetchIcuList"
+      />
+      
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>‹ Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>ICU List</Text>
-        <TouchableOpacity onPress={handleFilterPress} style={styles.filterHeaderButton}>
-          <Text style={styles.filterHeaderText}>Filter</Text>
-          {isFilterEnabled && <View style={styles.filterIndicator} />}
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={() => setDebugVisible(true)} style={styles.debugButton}>
+            <Text style={styles.debugButtonText}>🔧</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleFilterPress} style={styles.filterHeaderButton}>
+            <Text style={styles.filterHeaderText}>Filter</Text>
+            {isFilterEnabled && <View style={styles.filterIndicator} />}
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Tabs */}
