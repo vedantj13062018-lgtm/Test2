@@ -400,6 +400,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#f44336',
   },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  debugButton: {
+    padding: 5,
+    marginRight: 10,
+  },
+  debugButtonText: {
+    fontSize: 18,
+  },
   tabContainer: {
     flexDirection: 'row',
     backgroundColor: '#fff',
