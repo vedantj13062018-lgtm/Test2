@@ -104,6 +104,10 @@ const TaskListScreen: React.FC = () => {
 
       const response = await apiService.postEncrypted('ApiTiaTeleMD/getTaskListsNew', params);
       
+      // Store response for debug panel
+      setDebugResponse(response);
+      setDebugError('');
+      
       console.log('API Response code:', response.code);
       console.log('API Response data:', JSON.stringify(response.data, null, 2));
 
