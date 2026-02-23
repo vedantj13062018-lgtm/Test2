@@ -19,7 +19,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import apiService from '../../services/apiService';
 import { getStringFromStorage, saveStringToStorage } from '../../utils/storage';
 import { SESSION_ID, USER_ID, ORGANIZATION_ID } from '../../constants';
-import DebugPanel from '../../components/DebugPanel';
 
 interface TaskItem {
   event_id: string;
@@ -49,11 +48,6 @@ const TaskListScreen: React.FC = () => {
   const [isTaskWise, setIsTaskWise] = useState(initialTaskwise === '0');
   const [totalCount, setTotalCount] = useState('0');
   const [isFilterEnabled, setIsFilterEnabled] = useState(false);
-  
-  // Debug panel state
-  const [debugVisible, setDebugVisible] = useState(false);
-  const [debugResponse, setDebugResponse] = useState<any>(null);
-  const [debugError, setDebugError] = useState<string>('');
 
   const fetchTasks = useCallback(async (isScrolling = false) => {
     try {
@@ -104,10 +98,6 @@ const TaskListScreen: React.FC = () => {
 
       const response = await apiService.postEncrypted('ApiTiaTeleMD/getTaskListsNew', params);
       
-      // Store response for debug panel
-      setDebugResponse(response);
-      setDebugError('');
-      
       console.log('API Response code:', response.code);
       console.log('API Response data:', JSON.stringify(response.data, null, 2));
 
@@ -125,9 +115,8 @@ const TaskListScreen: React.FC = () => {
       } else {
         console.warn('API returned non-success code:', response.code, response.status);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error fetching tasks:', error);
-      setDebugError(error?.message || 'Unknown error occurred');
       Alert.alert('Error', 'Failed to fetch tasks');
     } finally {
       setLoading(false);
@@ -282,29 +271,15 @@ const TaskListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Debug Panel */}
-      <DebugPanel
-        visible={debugVisible}
-        onClose={() => setDebugVisible(false)}
-        apiResponse={debugResponse}
-        apiError={debugError}
-        endpoint="ApiTiaTeleMD/getTaskListsNew"
-      />
-      
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>‹ Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Task List</Text>
-        <View style={styles.headerRight}>
-          <TouchableOpacity onPress={() => setDebugVisible(true)} style={styles.debugButton}>
-            <Text style={styles.debugButtonText}>🔧</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleEscalationPress} style={styles.escalationButton}>
-            <Text style={styles.escalationText}>Escalation</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={handleEscalationPress} style={styles.escalationButton}>
+          <Text style={styles.escalationText}>Escalation</Text>
+        </TouchableOpacity>
       </View>
 
       {/* View Toggle */}
@@ -408,17 +383,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  debugButton: {
-    padding: 5,
-    marginRight: 10,
-  },
-  debugButtonText: {
-    fontSize: 18,
   },
   escalationButton: {
     padding: 5,

@@ -18,7 +18,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import apiService from '../../services/apiService';
 import { getStringFromStorage, saveStringToStorage } from '../../utils/storage';
 import { SESSION_ID, USER_ID, ORGANIZATION_ID } from '../../constants';
-import DebugPanel from '../../components/DebugPanel';
 
 interface ICUPatient {
   patient_id: string;
@@ -56,11 +55,6 @@ const ICUListScreen: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [totalCount, setTotalCount] = useState('0');
   const [isFilterEnabled, setIsFilterEnabled] = useState(false);
-  
-  // Debug panel state
-  const [debugVisible, setDebugVisible] = useState(false);
-  const [debugResponse, setDebugResponse] = useState<any>(null);
-  const [debugError, setDebugError] = useState<string>('');
 
   const fetchICUList = useCallback(async (isScrolling = false) => {
     try {
@@ -116,10 +110,6 @@ const ICUListScreen: React.FC = () => {
 
       const response = await apiService.postEncrypted('ApiTiaTeleMD/fetchIcuList', params);
 
-      // Store response for debug panel
-      setDebugResponse(response);
-      setDebugError('');
-
       console.log('API Response code:', response.code);
       console.log('API Response data:', JSON.stringify(response.data, null, 2));
 
@@ -138,9 +128,8 @@ const ICUListScreen: React.FC = () => {
       } else {
         console.warn('API returned non-success code:', response.code, response.status);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error fetching ICU list:', error);
-      setDebugError(error?.message || 'Unknown error occurred');
       Alert.alert('Error', 'Failed to fetch ICU patients');
     } finally {
       setLoading(false);
@@ -251,30 +240,16 @@ const ICUListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Debug Panel */}
-      <DebugPanel
-        visible={debugVisible}
-        onClose={() => setDebugVisible(false)}
-        apiResponse={debugResponse}
-        apiError={debugError}
-        endpoint="ApiTiaTeleMD/fetchIcuList"
-      />
-      
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>‹ Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>ICU List</Text>
-        <View style={styles.headerRight}>
-          <TouchableOpacity onPress={() => setDebugVisible(true)} style={styles.debugButton}>
-            <Text style={styles.debugButtonText}>🔧</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleFilterPress} style={styles.filterHeaderButton}>
-            <Text style={styles.filterHeaderText}>Filter</Text>
-            {isFilterEnabled && <View style={styles.filterIndicator} />}
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={handleFilterPress} style={styles.filterHeaderButton}>
+          <Text style={styles.filterHeaderText}>Filter</Text>
+          {isFilterEnabled && <View style={styles.filterIndicator} />}
+        </TouchableOpacity>
       </View>
 
       {/* Tabs */}
@@ -399,17 +374,6 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     backgroundColor: '#f44336',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  debugButton: {
-    padding: 5,
-    marginRight: 10,
-  },
-  debugButtonText: {
-    fontSize: 18,
   },
   tabContainer: {
     flexDirection: 'row',
