@@ -66,6 +66,19 @@ const ICUListScreen: React.FC = () => {
       const userId = await getStringFromStorage(USER_ID);
       const orgId = await getStringFromStorage(ORGANIZATION_ID);
 
+      // Debug logging
+      console.log('=== ICUListScreen API Debug ===');
+      console.log('Session ID:', sessionId ? 'SET' : 'EMPTY');
+      console.log('User ID:', userId ? 'SET' : 'EMPTY');
+      console.log('Organization ID:', orgId ? 'SET' : 'EMPTY');
+      
+      if (!sessionId || !userId || !orgId) {
+        console.warn('Missing required session data for ICU List API');
+        Alert.alert('Session Required', 'Please login to view ICU patients');
+        setLoading(false);
+        return;
+      }
+
       // Get filter values
       const filterPatientName = await getStringFromStorage('filter_icu_patient_name') || '';
       const filterFIN = await getStringFromStorage('filter_icu_fin') || '';
@@ -93,18 +106,26 @@ const ICUListScreen: React.FC = () => {
         limit: '10',
       };
 
+      console.log('Request params:', JSON.stringify(params, null, 2));
+
       const response = await apiService.postEncrypted('ApiTiaTeleMD/fetchIcuList', params);
+
+      console.log('API Response code:', response.code);
+      console.log('API Response data:', JSON.stringify(response.data, null, 2));
 
       if (response.code === '200' || response.code === '100') {
         const data = response.data as any;
-        const patientList = data?.icuListArrayList || data?.icu_list || [];
-        setTotalCount(data?.total_count || '0');
+        const patientList = data?.icuListArrayList || data?.icu_list || data?.iculist || [];
+        console.log('ICU patient list count:', patientList.length);
+        setTotalCount(data?.total_count || data?.totalcount || '0');
 
         if (isScrolling) {
           setPatients((prev) => [...prev, ...patientList]);
         } else {
           setPatients(patientList);
         }
+      } else {
+        console.warn('API returned non-success code:', response.code, response.status);
       }
     } catch (error) {
       console.error('Error fetching ICU list:', error);
