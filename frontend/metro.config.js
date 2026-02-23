@@ -16,8 +16,9 @@ const config = {
     resolver: {
         assetExts: assetExts.filter((ext) => ext !== 'svg'),
         sourceExts: [...sourceExts, 'svg'],
+        // Polyfill Node.js core modules for React Native
         extraNodeModules: {
-            crypto: require.resolve('crypto-browserify'),
+            crypto: require.resolve('react-native-get-random-values'),
             stream: require.resolve('stream-browserify'),
         },
     },
