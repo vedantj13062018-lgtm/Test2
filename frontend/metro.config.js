@@ -1,21 +1,28 @@
-// Learn more https://docs.expo.dev/guides/customizing-metro/
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
-const config = getDefaultConfig(__dirname);
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const defaultConfig = getDefaultConfig(__dirname);
+const { assetExts, sourceExts } = defaultConfig.resolver;
 
-// SVG transformer support
-config.transformer.babelTransformerPath = require.resolve('react-native-svg-transformer');
-
-// SVG extensions support
-const { assetExts, sourceExts } = config.resolver;
-config.resolver.assetExts = assetExts.filter((ext) => ext !== 'svg');
-config.resolver.sourceExts = [...sourceExts, 'svg'];
-
-// Polyfill Node.js core modules for React Native
-config.resolver.extraNodeModules = {
-    crypto: require.resolve('react-native-get-random-values'),
-    stream: require.resolve('stream-browserify'),
-    url: require.resolve('url'),
+const config = {
+    transformer: {
+        babelTransformerPath: require.resolve('react-native-svg-transformer'),
+    },
+    resolver: {
+        assetExts: assetExts.filter((ext) => ext !== 'svg'),
+        sourceExts: [...sourceExts, 'svg'],
+        // Polyfill Node.js core modules for React Native
+        extraNodeModules: {
+            crypto: require.resolve('react-native-get-random-values'),
+            stream: require.resolve('stream-browserify'),
+            url: require.resolve('url'),
+        },
+    },
 };
 
-module.exports = config;
+module.exports = mergeConfig(defaultConfig, config);
