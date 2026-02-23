@@ -282,15 +282,29 @@ const TaskListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {/* Debug Panel */}
+      <DebugPanel
+        visible={debugVisible}
+        onClose={() => setDebugVisible(false)}
+        apiResponse={debugResponse}
+        apiError={debugError}
+        endpoint="ApiTiaTeleMD/getTaskListsNew"
+      />
+      
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>‹ Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Task List</Text>
-        <TouchableOpacity onPress={handleEscalationPress} style={styles.escalationButton}>
-          <Text style={styles.escalationText}>Escalation</Text>
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={() => setDebugVisible(true)} style={styles.debugButton}>
+            <Text style={styles.debugButtonText}>🔧</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleEscalationPress} style={styles.escalationButton}>
+            <Text style={styles.escalationText}>Escalation</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* View Toggle */}
