@@ -39,11 +39,11 @@ import InvestigationResultScreen from '../screens/Investigations/InvestigationRe
 import LabResultUploadScreen from '../screens/Investigations/LabResultUploadScreen';
 
 // Task Module
-import TaskListScreen from '../screens/Task/TaskListScreen';
-import TaskEscalationScreen from '../screens/Task/TaskEscalationScreen';
-import TaskDetailsScreen from '../screens/Task/TaskDetailsScreen';
-import TaskCommentsScreen from '../screens/Task/TaskCommentsScreen';
-import TaskFilterScreen from '../screens/Task/TaskFilterScreen';
+import TaskListScreen from '../screens/Tasks/TaskListScreen';
+import TaskEscalationScreen from '../screens/Tasks/TaskEscalationScreen';
+import TaskDetailsScreen from '../screens/Tasks/TaskDetailsScreen';
+import TaskCommentsScreen from '../screens/Tasks/TaskCommentsScreen';
+import TaskFilterScreen from '../screens/Tasks/TaskFilterScreen';
 
 // ICU Module
 import ICUListScreen from '../screens/ICU/ICUListScreen';
