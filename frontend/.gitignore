@@ -37,22 +37,3 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
-
-# Android build files
-android/.gradle/
-android/app/build/
-android/build/
-*.apk
-*.aab
-
-# iOS build files
-ios/Pods/
-ios/build/
-
-# Environment files (keep template)
-.env
-
-# IDE
-.idea/
-*.iml
-.vscode/
