@@ -41,5 +41,12 @@ allprojects {
             // Android JSC is installed from npm
             url("${rootDir}/../node_modules/jsc-android/dist")
         }
+        maven {
+            // Jitsi Maven repository
+            url "https://github.com/nicfit/nicfit-m2/raw/main/releases"
+        }
+        maven {
+            url "https://maven.jitsi.org/releases"
+        }
     }
 }
