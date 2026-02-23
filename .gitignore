@@ -31,7 +31,6 @@ dist/
 dist
 
 # Environment files (comprehensive coverage)
-
 *token.json*
 *credentials.json*
 
@@ -77,7 +76,15 @@ agenthub/agents/youtube/db
 .cache/
 
 # Mobile development
-android-sdk/ 
-# Emergent
-.emergent/
+android-sdk/
 
+# Emergent tool files
+.emergent/
+test_result.md
+memory/
+test_reports/
+tests/
+backend/
+
+# Zip files
+*.zip
