@@ -58,6 +58,20 @@ const TaskListScreen: React.FC = () => {
       const sessionId = await getStringFromStorage(SESSION_ID);
       const userId = await getStringFromStorage(USER_ID);
       const orgId = await getStringFromStorage(ORGANIZATION_ID);
+      
+      // Debug logging
+      console.log('=== TaskListScreen API Debug ===');
+      console.log('Session ID:', sessionId ? 'SET' : 'EMPTY');
+      console.log('User ID:', userId ? 'SET' : 'EMPTY');
+      console.log('Organization ID:', orgId ? 'SET' : 'EMPTY');
+      
+      if (!sessionId || !userId || !orgId) {
+        console.warn('Missing required session data for Task List API');
+        Alert.alert('Session Required', 'Please login to view tasks');
+        setLoading(false);
+        return;
+      }
+      
       const filterTaskStat = await getStringFromStorage('filter_task_stat') || '';
       const filterCare = await getStringFromStorage('filter_care') || '';
       const filterTaskCat = await getStringFromStorage('filter_task_cat') || '';
@@ -79,19 +93,27 @@ const TaskListScreen: React.FC = () => {
         start: isScrolling ? String(tasks.length) : '0',
         limit: '10',
       };
+      
+      console.log('Request params:', JSON.stringify(params, null, 2));
 
       const response = await apiService.postEncrypted('ApiTiaTeleMD/getTaskListsNew', params);
+      
+      console.log('API Response code:', response.code);
+      console.log('API Response data:', JSON.stringify(response.data, null, 2));
 
       if (response.code === '200' || response.code === '100') {
         const data = response.data as any;
-        const taskList = data?.tasklistArraylist || data?.tasks || [];
-        setTotalCount(data?.totalcount || '0');
+        const taskList = data?.tasklistArraylist || data?.tasks || data?.task_list || [];
+        console.log('Task list count:', taskList.length);
+        setTotalCount(data?.totalcount || data?.total_count || '0');
 
         if (isScrolling) {
           setTasks((prev) => [...prev, ...taskList]);
         } else {
           setTasks(taskList);
         }
+      } else {
+        console.warn('API returned non-success code:', response.code, response.status);
       }
     } catch (error) {
       console.error('Error fetching tasks:', error);
