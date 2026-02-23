@@ -409,6 +409,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  debugButton: {
+    padding: 5,
+    marginRight: 10,
+  },
+  debugButtonText: {
+    fontSize: 18,
+  },
   escalationButton: {
     padding: 5,
   },
