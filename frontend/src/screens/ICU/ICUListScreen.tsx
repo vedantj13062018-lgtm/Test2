@@ -18,6 +18,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import apiService from '../../services/apiService';
 import { getStringFromStorage, saveStringToStorage } from '../../utils/storage';
 import { SESSION_ID, USER_ID, ORGANIZATION_ID } from '../../constants';
+import DebugPanel from '../../components/DebugPanel';
 
 interface ICUPatient {
   patient_id: string;
@@ -55,6 +56,11 @@ const ICUListScreen: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [totalCount, setTotalCount] = useState('0');
   const [isFilterEnabled, setIsFilterEnabled] = useState(false);
+  
+  // Debug panel state
+  const [debugVisible, setDebugVisible] = useState(false);
+  const [debugResponse, setDebugResponse] = useState<any>(null);
+  const [debugError, setDebugError] = useState<string>('');
 
   const fetchICUList = useCallback(async (isScrolling = false) => {
     try {
