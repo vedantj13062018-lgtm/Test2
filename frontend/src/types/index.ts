@@ -72,6 +72,7 @@ export type RootStackParamList = {
   UploadPrescription: { patientId?: string; patientName?: string; doctorId?: string; encounterData?: string; mrn?: string; editMode?: boolean; prescriptionId?: string };
   SearchMedicines: { patientId?: string; doctorId?: string; onMedicineSelected?: (medicine: any) => void };
   FrequencyRouteList: { listType: 'frequency' | 'route'; selectedId?: string; onItemSelected?: (item: any) => void };
+  PatientDetails: { patientId: string; encounterId?: string };
 
   [key: string]: any;
 };
