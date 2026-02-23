@@ -77,6 +77,9 @@ import UploadPrescriptionScreen from '../screens/Medications/UploadPrescriptionS
 import SearchMedicinesScreen from '../screens/Medications/SearchMedicinesScreen';
 import FrequencyRouteListScreen from '../screens/Medications/FrequencyRouteListScreen';
 
+// Patient Details
+import PatientDetailsScreen from '../screens/PatientDetails/PatientDetailsScreen';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
