@@ -252,8 +252,7 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ onClose }) => {
           <TouchableOpacity 
             style={styles.menuItem} 
             onPress={() => {
-              // TODO: Navigate to TaskList when screen is created
-              if (onClose) onClose();
+              handleNavigation('TaskList');
             }}
           >
             <Text style={styles.menuItemText}>Task List</Text>
@@ -263,8 +262,7 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ onClose }) => {
           <TouchableOpacity 
             style={styles.menuItem} 
             onPress={() => {
-              // TODO: Navigate to TaskListEscalation when screen is created
-              if (onClose) onClose();
+              handleNavigation('TaskEscalation');
             }}
           >
             <Text style={styles.menuItemText}>Task List Escalation</Text>
@@ -274,11 +272,20 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ onClose }) => {
           <TouchableOpacity 
             style={styles.menuItem} 
             onPress={() => {
-              // TODO: Navigate to ICUList when screen is created
-              if (onClose) onClose();
+              handleNavigation('ICUList');
             }}
           >
             <Text style={styles.menuItemText}>ICU List</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('InvestigationsList');
+            }}
+          >
+            <Text style={styles.menuItemText}>Investigations</Text>
           </TouchableOpacity>
           <View style={styles.menuDivider} />
           
