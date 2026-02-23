@@ -23,6 +23,11 @@
     "ios": {
       "bundleIdentifier": "com.tiatech.tiatelemd",
       "supportsTablet": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "666d8f08-6f12-47ed-875c-9f360c60e042"
+      }
     }
   }
 }
