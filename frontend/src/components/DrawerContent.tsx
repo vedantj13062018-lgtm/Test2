@@ -289,6 +289,149 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ onClose }) => {
           </TouchableOpacity>
           <View style={styles.menuDivider} />
           
+          {/* Clinical Assessment & Forms Section */}
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('ClinicalAssessment');
+            }}
+          >
+            <Text style={styles.menuItemText}>Clinical Assessment</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('AssessmentHistory');
+            }}
+          >
+            <Text style={styles.menuItemText}>Assessment History</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('FormCategories');
+            }}
+          >
+            <Text style={styles.menuItemText}>Form Categories / Templates</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('StrokeScale');
+            }}
+          >
+            <Text style={styles.menuItemText}>Stroke Scale</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('ICDCPT');
+            }}
+          >
+            <Text style={styles.menuItemText}>ICD / CPT</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('FavouriteICDCPT');
+            }}
+          >
+            <Text style={styles.menuItemText}>Favourite ICD/CPT</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          {/* Notes & Documentation Section */}
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('PatientNotes');
+            }}
+          >
+            <Text style={styles.menuItemText}>Patient Notes</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('NoteTypes');
+            }}
+          >
+            <Text style={styles.menuItemText}>Note Types</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('VoiceRecord');
+            }}
+          >
+            <Text style={styles.menuItemText}>Voice Record (Notes)</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          {/* Medications & Prescription Section */}
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('MedicationsLabOrders');
+            }}
+          >
+            <Text style={styles.menuItemText}>Medications / Lab Orders</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('AddPrescription');
+            }}
+          >
+            <Text style={styles.menuItemText}>Add Prescription</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('UploadPrescription');
+            }}
+          >
+            <Text style={styles.menuItemText}>Upload Prescription</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('SearchMedicines');
+            }}
+          >
+            <Text style={styles.menuItemText}>Search Medicines</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
+          <TouchableOpacity 
+            style={styles.menuItem} 
+            onPress={() => {
+              handleNavigation('FrequencyRouteList');
+            }}
+          >
+            <Text style={styles.menuItemText}>Frequency / Route List</Text>
+          </TouchableOpacity>
+          <View style={styles.menuDivider} />
+          
           <TouchableOpacity 
             style={styles.menuItem} 
             onPress={() => {
