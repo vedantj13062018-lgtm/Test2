@@ -11,7 +11,7 @@
         "buildType": "apk",
         "gradleCommand": ":app:assembleDebug"
       },
-      "node": "20.18.0"
+      "node": "20.19.4"
     },
     "preview": {
       "distribution": "internal",
@@ -20,7 +20,7 @@
         "gradleCommand": ":app:assembleRelease",
         "credentialsSource": "local"
       },
-      "node": "20.18.0",
+      "node": "20.19.4",
       "env": {
         "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
       }
@@ -31,7 +31,7 @@
         "gradleCommand": ":app:assembleRelease",
         "credentialsSource": "local"
       },
-      "node": "20.18.0"
+      "node": "20.19.4"
     }
   },
   "submit": {
