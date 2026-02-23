@@ -125,8 +125,9 @@ const TaskListScreen: React.FC = () => {
       } else {
         console.warn('API returned non-success code:', response.code, response.status);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching tasks:', error);
+      setDebugError(error?.message || 'Unknown error occurred');
       Alert.alert('Error', 'Failed to fetch tasks');
     } finally {
       setLoading(false);
