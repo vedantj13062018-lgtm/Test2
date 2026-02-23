@@ -1,1 +1,0 @@
-/Users/apple/Documents/PartTimeJOB/tiaemer_doctor-TiateleMD_Swift5/TiaTeleMD_RN/android/app/build/intermediates/cxx/Debug/6u4h5o14/obj/arm64-v8a
