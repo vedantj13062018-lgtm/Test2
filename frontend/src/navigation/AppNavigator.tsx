@@ -194,6 +194,9 @@ const AppNavigator: React.FC = () => {
         <Stack.Screen name="UploadPrescription" component={UploadPrescriptionScreen} />
         <Stack.Screen name="SearchMedicines" component={SearchMedicinesScreen} />
         <Stack.Screen name="FrequencyRouteList" component={FrequencyRouteListScreen} />
+        
+        {/* Patient Details */}
+        <Stack.Screen name="PatientDetails" component={PatientDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
