@@ -20,6 +20,7 @@ expo-env.d.ts
 
 # Metro
 .metro-health-check*
+.metro-cache/
 
 # debug
 npm-debug.*
@@ -32,8 +33,18 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
+
+# Android build
+android/.gradle/
+android/app/build/
+android/build/
+
+# iOS build
+ios/Pods/
+ios/build/
 
 app-example
