@@ -11,7 +11,7 @@
         "buildType": "apk",
         "gradleCommand": ":app:assembleDebug"
       },
-      "node": "20.19.4"
+      "node": "18.18.0"
     },
     "preview": {
       "distribution": "internal",
@@ -20,10 +20,12 @@
         "gradleCommand": ":app:assembleRelease",
         "credentialsSource": "local"
       },
-      "node": "20.19.4",
+      "node": "18.18.0",
       "env": {
-        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
-      }
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true",
+        "EXPO_NO_TYPESCRIPT_SETUP": "1"
+      },
+      "config": "eas-build.config.js"
     },
     "production": {
       "android": {
@@ -31,7 +33,7 @@
         "gradleCommand": ":app:assembleRelease",
         "credentialsSource": "local"
       },
-      "node": "20.19.4"
+      "node": "18.18.0"
     }
   },
   "submit": {
